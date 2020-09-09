@@ -1,0 +1,63 @@
+//Test Case 2 : TestNG Framework
+//Testcase 1: Verifying Sign-On link
+//Testcase 2: Get the source code
+//Testcase 3: Validate the source code
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+public class Testng1 {
+public String url = “http://newtours.demoaut.com/;
+public String expected;
+public String actual;
+public String sourcecode;
+public WebDriver fd;
+@BeforeTest
+public void launchbrowser() {
+fd = new FirefoxDriver();
+fd.get(url);
+}
+@BeforeMethod
+public void verifytitle() {
+expected = “Welcome: Mercury Tours”;
+actual = fd.getTitle();
+Assert.assertEquals(actual, expected);
+System.out.println(actual);
+Reporter.log(“<font color=’green’> <b>title is verified</b></font>”);
+}
+@Test
+public void login() throws Exception {
+fd.findElement(By.linkText(“SIGN-ON”)).click();
+expected = “Sign-on: Mercury Tours”;
+actual = fd.getTitle();
+Assert.assertEquals(actual, expected);
+System.out.println(actual);
+Reporter.log(“<font color=’green’> <b>contact is verified</b></font>”);
+}
+@Test
+public void getsourcecode() throws Exception {
+sourcecode = fd.getPageSource();
+FileWriter fn = new FileWriter(“e:\\source.txt”);
+BufferedWriter br = new BufferedWriter(fn);
+br.write(sourcecode);
+br.close();
+}
+@AfterMethod
+public void homelink() {
+fd.findElement(By.linkText(“Home”)).click();
+}
+REPORT THIS AD
+@AfterTest
+public void close() {
+fd.quit();
+}
+}
